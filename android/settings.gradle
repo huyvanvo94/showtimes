@@ -1,0 +1,3 @@
+rootProject.name = 'showtimes'
+
+include ':app'
