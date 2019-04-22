@@ -1,5 +1,6 @@
 import {ADD_MOVIE, REMOVE_MOVIE} from "../constants/actionTypes";
 
+
 const INITIAL_STATE = {
     movies: [{id: 1}, {id: 2}]
 };
@@ -30,9 +31,11 @@ function moviesReducer(state=INITIAL_STATE, action) {
             };
         case REMOVE_MOVIE:
 
+            console.log('moviesReducer REMOVE_MOVIE');
+
             return {
                 movies: state.movies.slice().filter((movie) => {
-                    return movie.id !== action.movie
+                    return movie.id !== action.movie.id
                 })
             };
         default:
