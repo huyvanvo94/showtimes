@@ -52,7 +52,7 @@ class MyMovies extends Component {
             'Delete',
             'Delete from collections',
             [
-                {text: 'OK', onPress: () => { this.props.deleteMovie()}},
+                {text: 'OK', onPress: () => { this.props.deleteMovie(item)}},
                 {
                     text: 'Cancel',
                     onPress: () => console.log('Cancel Pressed'),
@@ -78,7 +78,7 @@ class MyMovies extends Component {
                                 <Text style={[{height: window.height/10}]}>{item.id}</Text>
 
 
-                                    <TouchableOpacity onPress={this.displayDelete(item)}>
+                                    <TouchableOpacity onPress={() => this.displayDelete(item)}>
                                         <Icon
                                             style={styles.dots}
                                             name='more-vert'
