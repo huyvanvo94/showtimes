@@ -3,11 +3,36 @@
  */
 
 import {AppRegistry} from 'react-native';
-import App from './App';
 import MovieGridView from './src/components/MovieGridView';
+import DetailMove from './src/components/DetailMovie';
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import {name as appName} from './app.json';
+import App from './App';
 
 console.disableYellowBox = true;
 
-import {name as appName} from './app.json';
+// const MainNavigator = createStackNavigator({
+//     Home: {screen: MovieGridView},
+// });
+//
+// const Application = createAppContainer(MainNavigator);
+//
+//
 
-AppRegistry.registerComponent(appName, () => MovieGridView);
+
+const AppNavigator = createStackNavigator(
+    {
+        Home: App,
+        MovieGrid: MovieGridView,
+        DetailMovie: DetailMove
+    },
+    {
+        initialRouteName: "MovieGrid"
+    }
+);
+
+
+
+
+
+AppRegistry.registerComponent(appName, () => createAppContainer(AppNavigator));
