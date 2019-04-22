@@ -13,10 +13,13 @@
     "react-native-gesture-handler": "^1.1.0",
     "react-native-linear-gradient": "^2.5.4",
     "react-native-navigation": "^2.17.0",
+    "react-native-reanimated": "^1.0.1",
+    "react-native-tab-view": "^2.2.0",
     "react-navigation": "^3.8.1",
     "react-redux": "^4.4.10",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "react-native-swipeout": "^2.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",

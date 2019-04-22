@@ -20,24 +20,25 @@ class Movie extends Component{
             uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
         };
 
-        return( <TouchableOpacity onPress={this.touchHandler}>
-                    <View
-                        style={[ styles.container, {
-                             height: this.props.height,
-                             width: this.props.width}]}>
+        return(
+            <TouchableOpacity onPress={this.touchHandler}>
+                <View
+                    style={[ styles.container, {
+                         height: this.props.height,
+                         width: this.props.width}]}>
 
 
 
-                        <LinearGradient locations={[0.8, 0.9, 1.0]}
-                                        colors={['white', 'black']} style={styles.linearGradient}>
+                    <LinearGradient locations={[0.8, 0.9, 1.0]}
+                                    colors={['white', 'black']} style={styles.linearGradient}>
 
-                            <Image source={pic} style={{width: 193, height: 110}}/>
+                        <Image source={pic} style={{width: 193, height: 110}}/>
 
 
-                            <Text style={styles.title}> Movie Title </Text>
-                        </LinearGradient>
-                    </View>
-                </TouchableOpacity>
+                        <Text style={styles.title}> Movie Title </Text>
+                    </LinearGradient>
+                </View>
+            </TouchableOpacity>
         )
     }
 }
