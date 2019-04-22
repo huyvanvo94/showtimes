@@ -11,18 +11,9 @@ import App from './App';
 
 console.disableYellowBox = true;
 
-// const MainNavigator = createStackNavigator({
-//     Home: {screen: MovieGridView},
-// });
-//
-// const Application = createAppContainer(MainNavigator);
-//
-//
-
 
 const AppNavigator = createStackNavigator(
     {
-        Home: App,
         MovieGrid: MovieGridView,
         DetailMovie: DetailMove
     },
@@ -35,4 +26,4 @@ const AppNavigator = createStackNavigator(
 
 
 
-AppRegistry.registerComponent(appName, () => createAppContainer(AppNavigator));
+AppRegistry.registerComponent(appName, () => App);
