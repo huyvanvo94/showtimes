@@ -14,7 +14,7 @@ import Swipeout from 'react-native-swipeout';
 import { connect } from "react-redux";
 import {addMovie, removeMovie} from "../actions/movies";
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import PopupMenu from "./PopupMenu";
+
 
 const MenuIcon = ({ navigate }) => <Icon
     name='three-bars'
@@ -24,9 +24,6 @@ const MenuIcon = ({ navigate }) => <Icon
 />;
 
 const window = Dimensions.get('window');
-
-
-const test = [1,2,3,4];
 
 function mapStateToProps(state) {
     return {

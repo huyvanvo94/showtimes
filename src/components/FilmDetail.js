@@ -8,7 +8,8 @@ import {
     Platform,
     Image,
     Dimensions,
-    SafeAreaView
+    SafeAreaView,
+    TouchableOpacity
 }
 from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
@@ -19,7 +20,7 @@ import {addFilm} from "../actions/films";
 import { setGeolocation } from '../actions/app.state';
 import Carousel from 'react-native-snap-carousel';
 import { createMaterialTopTabNavigator, TabBarTop } from "react-navigation";
-
+import Icon from "react-native-vector-icons/AntDesign";
 const FirstRoute = () => (
     <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />
 );
@@ -43,7 +44,17 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-
+const AddIcon = ( ) => <Icon
+    name='pluscircle'
+    size={40}
+    color= '#ff4081'
+    style={ {
+        alignSelf: 'flex-end',
+        position: 'absolute',
+        right: 10,
+        top: Dimensions.get('window').height - 220
+    }}
+/>;
 
 
 const test = {
@@ -338,8 +349,7 @@ class FilmDetail extends Component {
         ],
     };
     static navigationOptions = {
-        headerTitle: 'See a Movie',
-        headerRight: <Button title="To see"/>
+        headerTitle: 'See a Movie'
     };
 
     constructor(props) {
@@ -364,11 +374,16 @@ class FilmDetail extends Component {
 
         data.forEach((medium) => {
             console.log(medium);
-        })
+        });
 
         return (
             <View>
-                <TabViewExample/>
+                <TouchableOpacity style={{
+                    flexDirection: 'column',
+                    flex: 1
+                }}>
+                    <AddIcon/>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -403,7 +418,7 @@ class FilmCarousel extends Component {
     _renderItem( {item}) {
 
         return (
-            <View >
+            <View style={{flex: 1}}>
 
                 <Image source={{uri: item.medium.film_image}}
                        style={{width: "100%", height: item.medium.height}}/>
@@ -452,6 +467,9 @@ const styles = StyleSheet.create({
     },scene: {
         flex: 1, width: "100%", height: "100%"
     },
+    addIcon: {
+        justifyContent: 'flex-end'
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilmDetail);

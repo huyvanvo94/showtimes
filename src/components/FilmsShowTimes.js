@@ -17,8 +17,6 @@ import axios from 'axios';
 import {defaultMovieGlueHeader, MOVIE_GLU_API} from "../constants";
 import {setGeolocation} from "../actions/app.state";
 
-const test = [1,2,3,4,5,6,67,7,7,7,7,7,77 ];
-
 const window = Dimensions.get('window');
 
 
@@ -50,8 +48,7 @@ class FilmsShowTimes extends Component {
         const params = navigation.state.params || {};
 
         return {
-            title: params.title,
-            headerRight: params.headerRight
+            title: params.title
         }
     };
 

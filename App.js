@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 
 import { Provider } from 'react-redux';
 import store from './src/store';
+import {View, Text} from 'react-native';
 
+import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 
 import {createAppContainer, createStackNavigator} from "react-navigation";
 import MovieGridView from "./src/components/FilmsShowTimes";
@@ -15,20 +17,26 @@ const AppNavigator = createStackNavigator(
     {
         MovieGrid: MovieGridView,
         DetailMovie: DetailMove,
-        MyMovies: MyMovies
     },
     {
         initialRouteName: "MovieGrid"
     }
 );
 
-const Navigation = createAppContainer(AppNavigator);
+const TabNavigator = createBottomTabNavigator({
+    "Movies Near Me": AppNavigator,
+    "To Watch": MyMovies,
+});
+
+const TabNav = createAppContainer(TabNavigator);
+
 
 class App extends Component<Props> {
   render() {
     return (
         <Provider store={store}>
-            <Navigation/>
+
+            <TabNav/>
         </Provider>
     );
   }
