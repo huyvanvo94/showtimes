@@ -12,6 +12,7 @@ import {
     TouchableOpacity
 }
 from 'react-native';
+
 import { TabView, SceneMap } from 'react-native-tab-view';
 
 import { connect } from 'react-redux';
@@ -19,14 +20,30 @@ import {addMovie} from "../actions/movies";
 import {addFilm} from "../actions/films";
 import { setGeolocation } from '../actions/app.state';
 import Carousel from 'react-native-snap-carousel';
-import { createMaterialTopTabNavigator, TabBarTop } from "react-navigation";
+
 import Icon from "react-native-vector-icons/AntDesign";
+
+/*
+import { createBottomTabNavigator,
+    BottomTabBar,
+    createMaterialTopTabNavigator } from 'react-navigation-tabs'; */
+
+import {
+    createMaterialTopTabNavigator,
+    createSwitchNavigator,
+    createAppContainer,
+    createStackNavigator
+} from "react-navigation";
+
 const FirstRoute = () => (
     <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />
 );
 const SecondRoute = () => (
     <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
 );
+
+
+
 
 function mapStateToProps(state) {
     return {
@@ -49,10 +66,7 @@ const AddIcon = ( ) => <Icon
     size={40}
     color= '#ff4081'
     style={ {
-        alignSelf: 'flex-end',
-        position: 'absolute',
-        right: 10,
-        top: Dimensions.get('window').height - 220
+        alignSelf: 'flex-end', marginRight: 10, marginBottom: 10
     }}
 />;
 
@@ -338,19 +352,76 @@ const test = {
         "version": "PFIEv102",
         "auth_type": "d"
     }
+};
+
+
+
+
+class Tester extends Component{
+    render() {
+
+        return (
+            <View style={{backgroundColor: 'white'}}>
+                <Text>Hello</Text>
+            </View>
+        )
+    }
 }
 
+const Tabs = createMaterialTopTabNavigator({
+    "SHOWTIMES": Tester,
+    "MOVIE DETAILS": Tester,
+    "TRAILER": Tester
+},   {
+    navigationOptions: ({ navigation, screenProps }) => ({
+        header: null,
+        headerMode: 'none',
+        tabBarVisible: true,
+        tabBarLabel: () => {
+            const { routeName } = navigation.state;
+            switch (routeName) {
+                //
+            }
+            return <Text>{routeName}</Text>;
+        },
+    }),
+    animationEnabled: false,
+    swipeEnabled: true,
+    tabBarOptions: {
+        headerMode: 'none',
+        activeTintColor: 'rgb(12,157,197)',
+        inactiveTintColor: 'black',
+        indicatorStyle: {
+            backgroundColor: 'rgb(102,134,205)',
+        },
+        labelStyle: {
+            fontSize: 14,
+            color: 'white',
+        },
+        tabStyle: {
+            height: 48,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        style: {
+
+            backgroundColor: 'black',
+        },
+        statusBarStyle: 'light-content',
+    },
+},);
+
+const MainScreenNavigation = createAppContainer(Tabs);
+
+
 class FilmDetail extends Component {
-    state = {
-        index: 0,
-        routes: [
-            { key: 'first', title: 'First' },
-            { key: 'second', title: 'Second' },
-        ],
-    };
+
+    static router = Tabs.router;
+
     static navigationOptions = {
         headerTitle: 'See a Movie'
     };
+
 
     constructor(props) {
         super(props);
@@ -359,7 +430,6 @@ class FilmDetail extends Component {
 
     }
     render() {
-
         const film = this.props.navigation.state.params.film;
 
         let still = test.images.still;
@@ -377,61 +447,39 @@ class FilmDetail extends Component {
         });
 
         return (
-            <View>
 
+            <SafeAreaView style={{flex: 1, backgroundColor: 'white', margin: 0}}>
                 <FilmCarousel still={data}/>
+
+                <MainScreenNavigation navigation={this.props.navigation}/>
 
                 <TouchableOpacity
                     onPress={() => {
                         this.props.addMovie(film)
                     }}
+
                     style={{
-                    flexDirection: 'column',
-                    flex: 1
-                }}>
+                     }}>
                     <AddIcon/>
                 </TouchableOpacity>
-            </View>
-        )
-    }
-}
 
- class TabViewExample extends React.Component {
-    state = {
-        index: 0,
-        routes: [
-            { key: 'first', title: 'First' },
-            { key: 'second', title: 'Second' },
-        ],
-    };
 
-    render() {
-        return (
-            <TabView
-                navigationState={this.state}
-                renderScene={SceneMap({
-                    first: FirstRoute,
-                    second: SecondRoute,
-                })}
-                onIndexChange={index => this.setState({ index })}
-                initialLayout={{ width: Dimensions.get('window').width }}
-            />
+            </SafeAreaView>
+
         );
     }
 }
 
+
+
+
 class FilmCarousel extends Component {
 
     _renderItem( {item}) {
-        console.log(item.medium.film_image)
 
         return (
-            <View >
-
                 <Image source={{uri: item.medium.film_image}}
-                       style={{width: "100%", height: item.medium.height}}/>
-
-            </View>
+                       style={{flex: 1, width: "100%",  marginBottom: 0}}/>
         );
     }
 
@@ -442,11 +490,16 @@ class FilmCarousel extends Component {
                 itemWidth={400}
                 data={this.props.still}
                 renderItem={this._renderItem}
-
+                containerCustomStyle={{flex: 1}}
+                slideStyle={{flex: 1}}
             />
         );
     }
 }
+
+
+
+
 
 const entryBorderRadius = 8;
 

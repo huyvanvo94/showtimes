@@ -15,6 +15,7 @@ import Swipeout from 'react-native-swipeout';
 import { connect } from "react-redux";
 import {addMovie, removeMovie} from "../actions/movies";
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import { TabView, SceneMap } from 'react-native-tab-view';
 
 
 const MenuIcon = ({ navigate }) => <Icon
@@ -37,6 +38,9 @@ function mapDispatchToProps(dispatch) {
         deleteMovie: (payload) => dispatch(removeMovie(payload))
     }
 }
+
+
+
 
 class MyMovies extends Component {
     static navigationOptions = {
