@@ -378,6 +378,9 @@ class FilmDetail extends Component {
 
         return (
             <View>
+
+                <FilmCarousel still={data}/>
+
                 <TouchableOpacity
                     onPress={() => {
                         this.props.addMovie(film)
@@ -420,9 +423,10 @@ class FilmDetail extends Component {
 class FilmCarousel extends Component {
 
     _renderItem( {item}) {
+        console.log(item.medium.film_image)
 
         return (
-            <View style={{flex: 1}}>
+            <View >
 
                 <Image source={{uri: item.medium.film_image}}
                        style={{width: "100%", height: item.medium.height}}/>
