@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import { Provider } from 'react-redux';
 import store from './src/store';
 
+
 import {createAppContainer, createStackNavigator} from "react-navigation";
 import MovieGridView from "./src/components/MovieGridView";
 import DetailMove from "./src/components/DetailMovie";

@@ -1,26 +1,12 @@
-/**
- * @format
- */
 
 import {AppRegistry} from 'react-native';
-import MovieGridView from './src/components/MovieGridView';
-import DetailMove from './src/components/DetailMovie';
-import { createStackNavigator, createAppContainer } from "react-navigation";
 import {name as appName} from './app.json';
 import App from './App';
+import Config from 'react-native-config'
 
+console.log(Config);
+console.log(Config.MOVIE_API);
 console.disableYellowBox = true;
-
-
-const AppNavigator = createStackNavigator(
-    {
-        MovieGrid: MovieGridView,
-        DetailMovie: DetailMove
-    },
-    {
-        initialRouteName: "MovieGrid"
-    }
-);
 
 
 
