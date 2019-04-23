@@ -378,7 +378,11 @@ class FilmDetail extends Component {
 
         return (
             <View>
-                <TouchableOpacity style={{
+                <TouchableOpacity
+                    onPress={() => {
+                        this.props.addMovie(film)
+                    }}
+                    style={{
                     flexDirection: 'column',
                     flex: 1
                 }}>

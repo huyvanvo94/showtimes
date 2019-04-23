@@ -7,7 +7,8 @@ import {
     FlatList,
     Dimensions,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    SafeAreaView
 } from 'react-native';
 
 import Swipeout from 'react-native-swipeout';
@@ -38,7 +39,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 class MyMovies extends Component {
-
+    static navigationOptions = {
+        headerTitle: 'To Watch'
+    };
     constructor(props){
         super(props);
 
@@ -64,15 +67,18 @@ class MyMovies extends Component {
 
     render() {
         return (
-            <View style={[{height: window.height, width: window.width}]}>
+            <SafeAreaView style={[{height: window.height, width: window.width}]}>
 
                 <FlatList
                     data={this.props.movies}
                     renderItem={({ item }) => (
 
 
-                            <TouchableOpacity onPress={()=> console.log('touch')}>
-                                <Text style={[{height: window.height/10}]}>{item.id}</Text>
+                            <TouchableOpacity onPress={   () => {
+                                this.props.navigation.navigate('DetailMovie',
+                                    {film: item});
+                            }}>
+                                <Text style={[{height: window.height/10}]}>{item.film_name}</Text>
 
 
                                     <TouchableOpacity onPress={() => this.displayDelete(item)}>
@@ -92,7 +98,7 @@ class MyMovies extends Component {
                     keyExtractor={(item, index) => index}
                 />
 
-            </View>
+            </SafeAreaView>
         );
     }
 }

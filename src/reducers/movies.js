@@ -2,7 +2,7 @@ import {ADD_MOVIE, REMOVE_MOVIE} from "../constants/actionTypes";
 
 
 const INITIAL_STATE = {
-    movies: [{id: 1}, {id: 2}]
+    movies: []
 };
 
 /*
@@ -13,12 +13,20 @@ function moviesReducer(state=INITIAL_STATE, action) {
 
         case ADD_MOVIE:
 
-            console.log('moviesReducer ADD_MOVIE');
+            console.log('moviesReducer ADD_MOVIE ' + action.movie.film_id);
 
+            if(state.movies.length === 0) {
+                return {
+                    movies: [action.movie]
+                }
+            }
+
+            // Check if already contains movie
             let movie = state.movies.slice().filter((movie) => {
-                return movie.id === action.movie.id;
+                return movie.film_id === action.movie.film_id;
             });
 
+            // If contains, exit from function
             if(movie.length > 0) {
                 return state;
             }
@@ -35,7 +43,7 @@ function moviesReducer(state=INITIAL_STATE, action) {
 
             return {
                 movies: state.movies.slice().filter((movie) => {
-                    return movie.id !== action.movie.id
+                    return movie.film_id !== action.movie.film_id
                 })
             };
         default:

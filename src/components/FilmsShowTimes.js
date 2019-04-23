@@ -92,11 +92,7 @@ class FilmsShowTimes extends Component {
 
         axios.get(url, { headers : headers})
             .then((res) =>  {
-
                 let films = res.data.films ;
-
-
-                console.log(films);
 
                 films.forEach((film) => {
                     this.props.addFilm(film);

@@ -8,7 +8,7 @@ import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 
 import {createAppContainer, createStackNavigator} from "react-navigation";
 import MovieGridView from "./src/components/FilmsShowTimes";
-import DetailMove from "./src/components/FilmDetail";
+import FilmDetail from "./src/components/FilmDetail";
 import MyMovies from "./src/components/MyMovies";
 
 type Props = {};
@@ -16,16 +16,25 @@ type Props = {};
 const AppNavigator = createStackNavigator(
     {
         MovieGrid: MovieGridView,
-        DetailMovie: DetailMove,
+        DetailMovie: FilmDetail,
     },
     {
         initialRouteName: "MovieGrid"
     }
 );
 
+const MyMovieNavigator = createStackNavigator({
+    DetailMovie: FilmDetail,
+    MyMovies: MyMovies
+
+}, {
+    initialRouteName: "MyMovies"
+
+});
+
 const TabNavigator = createBottomTabNavigator({
     "Movies Near Me": AppNavigator,
-    "To Watch": MyMovies,
+    "To Watch": MyMovieNavigator,
 });
 
 const TabNav = createAppContainer(TabNavigator);
