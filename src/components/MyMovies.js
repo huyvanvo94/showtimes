@@ -8,15 +8,12 @@ import {
     Dimensions,
     StyleSheet,
     TouchableOpacity,
-    SafeAreaView
+    SafeAreaView, Image
 } from 'react-native';
 
-import Swipeout from 'react-native-swipeout';
 import { connect } from "react-redux";
 import {addMovie, removeMovie} from "../actions/movies";
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { TabView, SceneMap } from 'react-native-tab-view';
-
 
 const MenuIcon = ({ navigate }) => <Icon
     name='three-bars'
@@ -39,6 +36,41 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
+
+let test = [
+    {
+        "film_id": 249077,
+        "film_name": "Dumbo",
+        "release_date": "2019-03-29",
+        "age_rating": "PG ",
+        "age_rating_image": "https://assets.movieglu.com/age_rating_logos/us/pg.png",
+        "film_trailer": "https://trailer.movieglu.com/249077_uk_high.mp4",
+        "synopsis_long": "Circus owner Max Medici (Danny DeVito) enlists former star Holt Farrier (Colin Farrell) and his children Milly (Nico Parker) and Joe (Finley Hobbins) to care for a newborn elephant whose oversized ears make him a laughingstock in an already struggling circus. But when they discover that Dumbo can fly, the circus makes an incredible comeback, attracting persuasive entrepreneur V.A. Vandevere (Michael Keaton), who recruits the peculiar pachyderm for his newest, larger-than-life entertainment venture, Dreamland. Dumbo soars to new heights alongside a charming and spectacular aerial artist, Colette Marchant (Eva Green), until Holt learns that beneath its shiny veneer, Dreamland is full of dark secrets.",
+        "images": {
+            "poster": {
+                "1": {
+                    "image_orientation": "portrait",
+                    "region": "US",
+                    "medium": {
+                        "film_image": "https://image.movieglu.com/249077/249077h1.jpg",
+                        "width": 200,
+                        "height": 300
+                    }
+                }
+            },
+            "still": {
+                "2": {
+                    "image_orientation": "landscape",
+                    "medium": {
+                        "film_image": "https://image.movieglu.com/249077/249077h2.jpg",
+                        "width": 300,
+                        "height": 200
+                    }
+                }
+            }
+        }
+    }
+];
 
 
 
@@ -82,17 +114,30 @@ class MyMovies extends Component {
                                 this.props.navigation.navigate('DetailMovie',
                                     {film: item});
                             }}>
-                                <Text style={[{height: window.height/10}]}>{item.film_name}</Text>
 
+                                <View style={{flex: 1,
+                                                flexDirection: 'row',
+                                                borderColor: "#fff",
+                                                borderWidth: 1,
+                                                backgroundColor: "#e9e9e9"}}>
+                                    <Image style={{marginLeft: 10, marginTop: 10, marginBottom: 10, paddingBottom: 5, width: 100, height: 100}} source={{uri: item.images.poster["1"].medium.film_image}} />
 
-                                    <TouchableOpacity onPress={() => this.displayDelete(item)}>
-                                        <Icon
-                                            style={styles.dots}
-                                            name='more-vert'
-                                            size={20}
-                                            color={'grey'}
-                                            ref={this.onRef} />
-                                    </TouchableOpacity>
+                                    <View style={{flex: 1, flexDirection: 'column', marginTop: 10}}>
+                                        <Text style={{marginTop: 10, marginLeft: 10}}>{item.film_name}</Text>
+                                        <Text style={{marginTop: 10, marginLeft: 10}}>{item.age_rating}</Text>
+
+                                    </View>
+                                </View>
+
+                                <TouchableOpacity onPress={() => this.displayDelete(item)}>
+                                    <Icon
+                                        style={styles.dots}
+                                        name='more-vert'
+                                        size={20}
+                                        color={'grey'}
+                                        ref={this.onRef} />
+                                </TouchableOpacity>
+
 
                             </TouchableOpacity>
 

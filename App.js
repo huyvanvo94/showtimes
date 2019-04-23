@@ -4,12 +4,13 @@ import { Provider } from 'react-redux';
 import store from './src/store';
 import {View, Text} from 'react-native';
 
+/*
 import { createBottomTabNavigator,
     BottomTabBar,
-    createMaterialTopTabNavigator } from 'react-navigation-tabs';
+    createMaterialTopTabNavigator } from 'react-navigation-tabs';*/
 
 import {
-    createSwitchNavigator,
+    createBottomTabNavigator,
     createAppContainer,
     createStackNavigator
 } from "react-navigation";
@@ -45,23 +46,6 @@ const TabNavigator = createBottomTabNavigator({
 });
 
 const TabNav = createAppContainer(TabNavigator);
-class Tester extends Component{
-    render() {
-
-        return (
-            <View>
-                <Text>Hello</Text>
-            </View>
-        )
-    }
-}
-
-const Tabs = createMaterialTopTabNavigator({
-    Home: Tester,
-    About: Tester
-});
-
-const MainScreenNavigation = createAppContainer(Tabs);
 
 
 

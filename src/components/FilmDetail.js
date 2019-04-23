@@ -479,7 +479,7 @@ class FilmCarousel extends Component {
 
         return (
                 <Image source={{uri: item.medium.film_image}}
-                       style={{flex: 1, width: "100%",  marginBottom: 0}}/>
+                       style={{flex: 1, width: "100%", height: 0,  marginBottom: 0}}/>
         );
     }
 
