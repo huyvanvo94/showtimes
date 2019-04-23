@@ -3,3 +3,5 @@ export const REMOVE_MOVIE = 'REMOVE_MOVIE';
 
 
 export const ADD_FILM_FROM_SERVER = "ADD_FILM_FROM_SERVER";
+
+export const LATLNG = "LATLNG";

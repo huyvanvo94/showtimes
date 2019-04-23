@@ -5,8 +5,8 @@ import store from './src/store';
 
 
 import {createAppContainer, createStackNavigator} from "react-navigation";
-import MovieGridView from "./src/components/MovieGridView";
-import DetailMove from "./src/components/DetailMovie";
+import MovieGridView from "./src/components/FilmsShowTimes";
+import DetailMove from "./src/components/FilmDetail";
 import MyMovies from "./src/components/MyMovies";
 
 type Props = {};

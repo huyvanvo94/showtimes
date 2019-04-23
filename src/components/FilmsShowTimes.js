@@ -15,6 +15,7 @@ import {addFilm} from "../actions/films";
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {defaultMovieGlueHeader, MOVIE_GLU_API} from "../constants";
+import {setGeolocation} from "../actions/app.state";
 
 const test = [1,2,3,4,5,6,67,7,7,7,7,7,77 ];
 
@@ -22,21 +23,27 @@ const window = Dimensions.get('window');
 
 
 function mapStateToProps(state) {
+    console.log(state.appStateReducer.state);
+
     return {
         myMovies: state.moviesReducer.movies.slice(),
-        filmsCollection: state.filmsReducer.films.slice()
+        filmsCollection: state.filmsReducer.films.slice(),
+        appState:  state.appStateReducer.state
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         addMovie: (payload) => dispatch(addMovie(payload)),
-        addFilm: (payload) => dispatch(addFilm(payload))
+        addFilm: (payload) => dispatch(addFilm(payload)),
+        setGeolocation: (payload) => dispatch(setGeolocation(payload))
+
     }
 }
 
 
-class MovieGridView extends Component {
+// 
+class FilmsShowTimes extends Component {
 
 
     static navigationOptions = ({navigation, screenProps}) => {
@@ -51,12 +58,8 @@ class MovieGridView extends Component {
     constructor(props) {
         super(props);
 
+        console.log(this.props.appState);
 
-
-        // navigator.geolocation.getCurrentPosition(
-        //     (position) => {
-        //         console.log(position.coords);
-        //     });
 
         this.state = {
             lat: null, lng: null
@@ -85,12 +88,12 @@ class MovieGridView extends Component {
          latlng: Geolocation of end user. Format example: 51; -0.1
         */
         if(this.state.lat && this.state.lng) {
-            headers['geolocation'] = `${this.state.lat}; ${this.state.lng}`;
+            headers.geolocation = `${this.state.lat}; ${this.state.lng}`;
         }
 
         console.log(this.state);
 
-        axios.get(url, {"headers": headers})
+        axios.get(url, { headers : headers})
             .then((res) =>  {
 
                 let films = res.data.films ;
@@ -139,12 +142,17 @@ class MovieGridView extends Component {
                     <FlatList
                         data={films}
                         renderItem={({ item }) => (
-                            <Movie film={item} width={window.width }
-                                   height={200}
-                                   push={()=> this.props.navigation.navigate('DetailMovie')}/>
+                            <Movie film={item} width={window.width/2 }
+                                   height={300}
+                                   push={
+                                       () => {
+                                           this.props.navigation.navigate('DetailMovie',
+                                            {film: item});
+                                       }
+                                   }/>
                         )}
                         //Setting the number of column
-                        numColumns={1}
+                        numColumns={2}
                         keyExtractor={(item, index) => index}
                     />
                 </View>
@@ -162,4 +170,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MovieGridView);
+export default connect(mapStateToProps, mapDispatchToProps)(FilmsShowTimes);

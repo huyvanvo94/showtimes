@@ -12,11 +12,11 @@ class Movie extends Component{
     touchHandler = () => {
         console.log('Movie touchHandler');
 
-        this.props.push();
+        this.props.push( );
+
     };
 
     render() {
-
 
         const film_name = this.props.film.film_name;
         const film_image = this.props.film.images.poster["1"]["medium"]["film_image"];
@@ -51,7 +51,6 @@ class Movie extends Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginBottom: 10,
         backgroundColor: 'blue'
 
     },
