@@ -16,8 +16,12 @@ class Movie extends Component{
     };
 
     render() {
+
+
+        const film_name = this.props.film.film_name;
+        const film_image = this.props.film.images.poster["1"]["medium"]["film_image"];
         let pic = {
-            uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
+            uri: film_image
         };
 
         return(
@@ -29,13 +33,13 @@ class Movie extends Component{
 
 
 
-                    <LinearGradient locations={[0.8, 0.9, 1.0]}
+                    <LinearGradient locations={[0.1, 0.5, 1.0]}
                                     colors={['white', 'black']} style={styles.linearGradient}>
 
-                        <Image source={pic} style={{width: 193, height: 110}}/>
 
+                        <Image source={pic} style={{width: "100%", height: "100%"}}/>
 
-                        <Text style={styles.title}> Movie Title </Text>
+                        <Text style={styles.title}> {film_name} </Text>
                     </LinearGradient>
                 </View>
             </TouchableOpacity>
@@ -62,7 +66,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         position: 'absolute',
 
-        height: 20,
+        fontSize: 20,
+        height: 30,
         width: '100%',
         color: '#fff'
     },
