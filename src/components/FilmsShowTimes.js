@@ -8,13 +8,15 @@ import {
     FlatList,
     StyleSheet,
     Dimensions,
-    SafeAreaView} from 'react-native';
+    SafeAreaView
+}
+from 'react-native';
 
 import {addMovie} from "../actions/movies";
 import {addFilm} from "../actions/films";
 import {connect} from 'react-redux';
 import axios from 'axios';
-import {defaultMovieGlueHeader, MOVIE_GLU_API} from "../constants";
+import {defaultMovieGlueHeader, MOVIE_GLU_API} from "../constants/constants";
 import {setGeolocation} from "../actions/app.state";
 
 const window = Dimensions.get('window');
@@ -39,8 +41,6 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-
-// 
 class FilmsShowTimes extends Component {
 
 

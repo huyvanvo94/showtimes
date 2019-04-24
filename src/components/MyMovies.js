@@ -8,12 +8,22 @@ import {
     Dimensions,
     StyleSheet,
     TouchableOpacity,
-    SafeAreaView, Image
+    SafeAreaView, Image, Button
 } from 'react-native';
 
 import { connect } from "react-redux";
 import {addMovie, removeMovie} from "../actions/movies";
 import Icon from 'react-native-vector-icons/MaterialIcons'
+
+
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+} from 'react-native-popup-menu';
+
+import {MenuProvider} from "react-native-popup-menu";
 
 const MenuIcon = ({ navigate }) => <Icon
     name='three-bars'
@@ -78,10 +88,32 @@ class MyMovies extends Component {
     static navigationOptions = {
         headerTitle: 'To Watch'
     };
+
+
     constructor(props){
         super(props);
 
+
+        this.state = {
+            textRef: React.createRef(),
+            menuRef: null
+        }
+
     }
+
+    setMenuRef = () => {
+
+    };
+
+    showMenu = () => {
+
+    };
+
+
+    onPress = () => {
+
+    };
+
 
     displayDelete = (item) => {
         Alert.alert(
@@ -103,66 +135,94 @@ class MyMovies extends Component {
 
     render() {
         return (
-            <SafeAreaView style={[{height: window.height, width: window.width}]}>
+            <SafeAreaView style={[{flex: 1},{height: window.height, width: window.width}]}>
 
                 <FlatList
                     data={this.props.movies}
                     renderItem={({ item }) => (
 
 
-                            <TouchableOpacity onPress={   () => {
-                                this.props.navigation.navigate('DetailMovie',
-                                    {film: item});
-                            }}>
 
-                                <View style={{flex: 1,
-                                                flexDirection: 'row',
-                                                borderColor: "#fff",
-                                                borderWidth: 1,
-                                                backgroundColor: "#e9e9e9"}}>
-                                    <Image style={{marginLeft: 10, marginTop: 10, marginBottom: 10, paddingBottom: 5, width: 100, height: 100}} source={{uri: item.images.poster["1"].medium.film_image}} />
+                            <MenuProvider>
 
-                                    <View style={{flex: 1, flexDirection: 'column', marginTop: 10}}>
-                                        <Text style={{marginTop: 10, marginLeft: 10}}>{item.film_name}</Text>
-                                        <Text style={{marginTop: 10, marginLeft: 10}}>{item.age_rating}</Text>
 
+
+                                <TouchableOpacity onPress={ () => {
+                                    this.props.navigation.navigate('DetailMovie',
+                                        {film: item}) }}>
+
+
+                                    <View style={{flex: 1,
+                                        flexDirection: 'row',
+                                        borderColor: "#fff",
+                                        borderWidth: 1,
+                                        backgroundColor: "#e9e9e9"}}>
+                                        <Image style={{marginLeft: 10, marginTop: 10, marginBottom: 10, paddingBottom: 5, width: 100, height: 100}} source={{uri: item.images.poster["1"].medium.film_image}} />
+
+                                        <View style={{flex: 1, flexDirection: 'column', marginTop: 10}}>
+                                            <Text style={{marginTop: 10, marginLeft: 10}}>{item.film_name}</Text>
+                                            <Text style={{marginTop: 10, marginLeft: 10}}>{item.age_rating}</Text>
+
+                                        </View>
                                     </View>
-                                </View>
 
-                                <TouchableOpacity onPress={() => this.displayDelete(item)}>
-                                    <Icon
-                                        style={styles.dots}
-                                        name='more-vert'
-                                        size={20}
-                                        color={'grey'}
-                                        ref={this.onRef} />
+
+
+
                                 </TouchableOpacity>
 
 
-                            </TouchableOpacity>
+                                <Menu>
+                                    <MenuTrigger>
+                                        <Icon
+                                            style={styles.dots}
+                                            name='more-vert'
+                                            size={20}
+                                            color={'grey'}/>
+                                    </MenuTrigger>
+
+                                    <MenuOptions optionsContainerStyle={{position: 'absolute', right: 0}}>
+                                        <MenuOption onSelect={() => this.props.deleteMovie(item)} >
+                                            <Text style={{color: 'red'}}>Delete</Text>
+                                        </MenuOption>
+                                    </MenuOptions>
+
+                                </Menu>
+                            </MenuProvider>
 
                     )}
                     //Setting the number of column
                     numColumns={1}
                     keyExtractor={(item, index) => index}
                 />
+                {
+                    /*<View style={{flex: 1, backgroundColor: "white", width: 200, height: 200}}>
+                        <MenuProvider>
+                            <Menu>
+                                <MenuTrigger>
+                                    <Icon
+                                        style={styles.dots}
+                                        name='more-vert'
+                                        size={20}
+                                        color={'grey'}/>
+                                </MenuTrigger>
+                                <MenuOptions>
+                                    <MenuOption onSelect={() => alert(`Save`)} text='Save'/>
+                                    <MenuOption onSelect={() => alert(`Delete`)}>
+                                        <Text style={{color: 'red'}}>Delete</Text>
+                                    </MenuOption>
+                                    <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled'/>
+                                </MenuOptions>
+                            </Menu>
+                        </MenuProvider>
+                    </View>*/
+                }
 
             </SafeAreaView>
         );
     }
 }
 
-class MyMovie extends Component {
-
-    render() {
-        return (
-            <View>
-
-            </View>
-        );
-    }
-
-}
 
 const styles = StyleSheet.create({
     container: {

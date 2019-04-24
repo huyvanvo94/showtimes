@@ -18,15 +18,20 @@
     "react-native-linear-gradient": "^2.5.4",
     "react-native-navigation": "^2.17.0",
     "react-native-reanimated": "^1.0.1",
+    "react-native-snap-carousel": "^3.7.5",
     "react-native-swipeout": "^2.3.6",
     "react-native-tab-view": "^2.2.0",
     "react-native-vector-icons": "^6.4.2",
+    "react-native-video": "^4.4.1",
     "react-navigation": "^3.8.1",
+    "react-navigation-tabs": "^2.1.1",
     "react-redux": "^4.4.10",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "react-native-snap-carousel": "^3.7.5",
-    "react-navigation-tabs": "^2.1.1"
+    "react-native-video-player": "^0.10.0",
+    "react-native-action-button": "^2.8.5",
+    "react-native-popup-menu": "^0.15.6",
+    "react-native-enhanced-popup-menu": "^0.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",

@@ -12,17 +12,19 @@ import {
     TouchableOpacity
 }
 from 'react-native';
+import ActionButton from 'react-native-action-button';
 
-import { TabView, SceneMap } from 'react-native-tab-view';
+import Video from 'react-native-video';
 
 import { connect } from 'react-redux';
-import {addMovie} from "../actions/movies";
-import {addFilm} from "../actions/films";
+import { addMovie } from "../actions/movies";
+import { addFilm } from "../actions/films";
 import { setGeolocation } from '../actions/app.state';
 import Carousel from 'react-native-snap-carousel';
 
 import Icon from "react-native-vector-icons/AntDesign";
 
+import TrailerVideo from './TrailerVideo';
 /*
 import { createBottomTabNavigator,
     BottomTabBar,
@@ -34,15 +36,6 @@ import {
     createAppContainer,
     createStackNavigator
 } from "react-navigation";
-
-const FirstRoute = () => (
-    <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />
-);
-const SecondRoute = () => (
-    <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
-);
-
-
 
 
 function mapStateToProps(state) {
@@ -66,7 +59,10 @@ const AddIcon = ( ) => <Icon
     size={40}
     color= '#ff4081'
     style={ {
-        alignSelf: 'flex-end', marginRight: 10, marginBottom: 10
+        zIndex: 20,
+        alignSelf: 'flex-end',
+        marginRight: 10,
+        marginBottom: 10
     }}
 />;
 
@@ -355,13 +351,45 @@ const test = {
 };
 
 
+class ShowTimes extends Component {
 
+    render() {
+        return (
+            <View>
+
+            </View>
+        );
+    }
+}
+
+class MovieDetails extends Component {
+    render() {
+        return (
+            <View>
+
+            </View>
+        );
+    }
+}
+
+class Trailer extends Component {
+    render() {
+        return (
+          <View style={{backgroundColor: 'black'}}>
+
+              <Text style={{color: 'white'}}> Trailer Name </Text>
+              <TrailerVideo/>
+
+          </View>
+        );
+    }
+}
 
 class Tester extends Component{
     render() {
 
         return (
-            <View style={{backgroundColor: 'white'}}>
+            <View style={{backgroundColor: 'white', height: 300}}>
                 <Text>Hello</Text>
             </View>
         )
@@ -369,9 +397,9 @@ class Tester extends Component{
 }
 
 const Tabs = createMaterialTopTabNavigator({
-    "SHOWTIMES": Tester,
-    "MOVIE DETAILS": Tester,
-    "TRAILER": Tester
+    "SHOWTIMES": ShowTimes,
+    "MOVIE DETAILS": MovieDetails,
+    "TRAILER": Trailer
 },   {
     navigationOptions: ({ navigation, screenProps }) => ({
         header: null,
@@ -450,19 +478,29 @@ class FilmDetail extends Component {
 
             <SafeAreaView style={{flex: 1, backgroundColor: 'white', margin: 0}}>
                 <FilmCarousel still={data}/>
-
                 <MainScreenNavigation navigation={this.props.navigation}/>
 
                 <TouchableOpacity
+                    style={{
+                        borderWidth:1,
+                        borderColor:'rgba(0,0,0,0.2)',
+                        alignItems:'center',
+                        justifyContent:'center',
+                        width: 50,
+                        position: 'absolute',
+                        bottom: 10,
+                        right: 10,
+                        height:50,
+                        backgroundColor:'#fff',
+                        borderRadius:50,
+                    }}
+
                     onPress={() => {
                         this.props.addMovie(film)
                     }}
-
-                    style={{
-                     }}>
-                    <AddIcon/>
+                >
+                    <Icon name="plus"  size={25} color="#01a699" />
                 </TouchableOpacity>
-
 
             </SafeAreaView>
 
