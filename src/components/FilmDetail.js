@@ -458,13 +458,42 @@ class MovieDetails extends Component {
 class Trailer extends Component {
     render() {
 
-        console.log('--->' + this.props.screenProps.film);
+        if(this.props.screenProps.film === undefined) {
+            return (
+                <View style={styles.tabComponent}>
+
+                    <Text style={{color: 'white'}}> Trailer Name </Text>
+                    <VideoPlayer
+
+                        video={{ uri:  ""}}
+                        videoWidth={300}
+                        videoHeight={200}
+
+                    />
+
+                </View>
+            );
+        }
+
+        const med = this.props.screenProps.film.trailers.trailers.med;
+
+        console.log(Object.keys(med));
+
+        const uri = med[0].film_trailer;
+
+        console.log(uri)
 
         return (
           <View style={styles.tabComponent}>
 
               <Text style={{color: 'white'}}> Trailer Name </Text>
-              <TrailerVideo/>
+              <VideoPlayer
+
+                  video={{ uri: uri }}
+                  videoWidth={300}
+                  videoHeight={200}
+
+              />
 
           </View>
         );
@@ -529,25 +558,52 @@ class FilmDetail extends Component {
     constructor(props) {
         super(props);
 
-        console.log(this.props.navigation.state);
-
+        this.state = {
+            details: undefined
+        };
     }
+
+    componentDidMount() {
+        console.log(this.props.navigation.state.params.film.film_id);
+
+        const {film_id} = this.props.navigation.state.params.film;
+
+        console.log('lmao : ' + film_id);
+
+        let url = MOVIE_GLU_API + "/filmDetails";
+
+        axios.get(url,
+            {params: {film_id: film_id}, headers: defaultMovieGlueHeader})
+            .then((res) => {
+                console.log('detai;s: ' + Object.keys(res.data.images));
+
+                this.setState({details: res.data})
+
+            }).catch((err) => console.log(err.message));
+    }
+
+
     render() {
 
         const film = this.props.navigation.state.params.film;
         const {location} =  this.props.appState ;
 
 
-        let still = film.images.still;
+        let still = undefined; // this.state.details.images.still;
 
-        console.log(Object.keys(film));
+        if(this.state.details !== undefined
+            && this.state.details.images.still !== undefined) {
+            still = this.state.details.images.still;
+        }
 
         let data = [];
 
-        Object.values(still).map((type) => {
-            console.log('type: ' + type.medium);
-            data.push({'medium': type.medium});
-        });
+        if(still !== undefined) {
+
+            Object.values(still).map((type) => {
+                data.push({'medium': type.medium});
+            });
+        }
 
 
         return (
@@ -555,7 +611,7 @@ class FilmDetail extends Component {
             <SafeAreaView style={{flex: 1, backgroundColor: '#ff', margin: 0}}>
                 <FilmCarousel still={data}/>
 
-                <MainScreenNavigation screenProps={{location: location, film: test}}
+                <MainScreenNavigation screenProps={{location: location, film: this.state.details}}
                                       navigation={this.props.navigation}/>
 
                 <TouchableOpacity

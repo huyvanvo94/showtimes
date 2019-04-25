@@ -9,9 +9,9 @@ let defaultMovieGlueHeader = {
 
     "Access-Control-Allow-Origin": "*",
     "api-version": "v102",
-    "Authorization": "Basic UEZJRTpwWjdVd0RYTGw1RTk=",
-    "client": "PFIE",
-    "x-api-key": "pp8n2yDVETaYbcHhJOvCW1GwYaIdHO5P6IuQFbAP"
+    "Authorization": Config.AUTH,
+    "client": Config.USERNAME,
+    "x-api-key": Config.API_KEY
 };
 
 export {
