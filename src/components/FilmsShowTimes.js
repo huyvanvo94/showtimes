@@ -28,7 +28,7 @@ function mapStateToProps(state) {
     return {
         myMovies: state.moviesReducer.movies.slice(),
         filmsCollection: state.filmsReducer.films.slice(),
-        appState:  Object.assign({}, state.appStateReducer.state)
+        appState:  Object.assign({}, state.appStateReducer )
     }
 }
 
@@ -78,7 +78,12 @@ class FilmsShowTimes extends Component {
             })
         });
     };
+    componentDidUpdate(prevProps){
+        if(prevProps.value !== this.props.value){
 
+            this.fetchMovies();
+        }
+    }
     fetchMovies = () => {
 
         let url = MOVIE_GLU_API + "/filmsNowShowing";
