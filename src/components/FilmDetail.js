@@ -9,9 +9,13 @@ import {
     Image,
     Dimensions,
     SafeAreaView,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView,
+    FlatList,
 }
 from 'react-native';
+import VideoPlayer from 'react-native-video-player';
+
 import ActionButton from 'react-native-action-button';
 
 import Video from 'react-native-video';
@@ -21,6 +25,8 @@ import { addMovie } from "../actions/movies";
 import { addFilm } from "../actions/films";
 import { setGeolocation } from '../actions/app.state';
 import Carousel from 'react-native-snap-carousel';
+import axios from 'axios';
+import {defaultMovieGlueHeader, MOVIE_GLU_API} from "../constants/constants";
 
 import Icon from "react-native-vector-icons/AntDesign";
 
@@ -39,9 +45,11 @@ import {
 
 
 function mapStateToProps(state) {
+
     return {
         myMovies: state.moviesReducer.movies.slice(),
-        filmsCollection: state.filmsReducer.films.slice()
+        filmsCollection: state.filmsReducer.films.slice(),
+        appState:  Object.assign({}, state.appStateReducer)
     }
 }
 
@@ -54,17 +62,7 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-const AddIcon = ( ) => <Icon
-    name='pluscircle'
-    size={40}
-    color= '#ff4081'
-    style={ {
-        zIndex: 20,
-        alignSelf: 'flex-end',
-        marginRight: 10,
-        marginBottom: 10
-    }}
-/>;
+
 
 
 const test = {
@@ -353,10 +351,76 @@ const test = {
 
 class ShowTimes extends Component {
 
-    render() {
-        return (
-            <View>
+    constructor(props){
+        super(props);
+        this.state = {
+            cinemas: []
+        }
+    }
 
+    componentDidMount() {
+        console.log('hello');
+
+        this.fetchShowtimes();
+
+
+
+    }
+
+    fetchShowtimes = () => {
+
+        const dateObj = new Date();
+        const month = dateObj.getUTCMonth() + 1; //months from 1-12
+        const day = dateObj.getUTCDate();
+        const year = dateObj.getUTCFullYear();
+
+        const todayDate = year + "-" + month + "-" + day;
+
+        const headers = defaultMovieGlueHeader;
+
+        const {lat, lng} = this.props.screenProps.location;
+
+        headers.Geolocation = `${lat}; ${lng}`;
+
+        axios.get(MOVIE_GLU_API + `/filmShowTimes/?film_id=271425&date=${todayDate}`, {headers: headers})
+            .then((res) => {
+                console.log(res.data);
+
+                this.setState({cinemas: res.data.cinemas})
+            }).catch((err) => {
+
+                console.log(err);
+        })
+    };
+
+    render() {
+         return (
+            <View style={styles.tabComponent}>
+                <Text style={{color: '#fff'}}> Show times for today </Text>
+
+
+                <FlatList
+                    data={ this.state.cinemas}
+                    renderItem={({ item }) => (
+                        <View>
+
+
+                            {
+                                console.log(Object.keys(item.showings.Standard.times))
+                            }
+
+                            <Text style={{color: '#fff'}}>{item.cinema_name} </Text>
+
+                            {
+                                item.showings.Standard.times.map((time) => {
+                                    return <Text style={{color: '#fff'}}>{time.start_time} to {time.end_time} </Text>
+                                })
+                            }
+
+
+                        </View>
+                    )}
+                />
             </View>
         );
     }
@@ -365,7 +429,26 @@ class ShowTimes extends Component {
 class MovieDetails extends Component {
     render() {
         return (
-            <View>
+            <View style={styles.tabComponent}>
+
+
+                <ScrollView style={{height: 100}}>
+                    <Text style={{color: 'white'}}>Plot</Text>
+                    <Text style={{color: '#fff'}}>
+                        {
+                            this.props.screenProps.film.synopsis_long
+                        }
+                    </Text>
+                </ScrollView>
+
+                <ScrollView style={{marginTop: 10}}>
+                    <Text style={{color: 'white'}}>Casts</Text>
+                    {
+                        this.props.screenProps.film.cast.map((who) => {
+                            return <Text style={{color: '#fff'}}>{who.cast_name}</Text>
+                        })
+                    }
+                </ScrollView>
 
             </View>
         );
@@ -374,8 +457,11 @@ class MovieDetails extends Component {
 
 class Trailer extends Component {
     render() {
+
+        console.log('--->' + this.props.screenProps.film);
+
         return (
-          <View style={{backgroundColor: 'black'}}>
+          <View style={styles.tabComponent}>
 
               <Text style={{color: 'white'}}> Trailer Name </Text>
               <TrailerVideo/>
@@ -385,16 +471,6 @@ class Trailer extends Component {
     }
 }
 
-class Tester extends Component{
-    render() {
-
-        return (
-            <View style={{backgroundColor: 'white', height: 300}}>
-                <Text>Hello</Text>
-            </View>
-        )
-    }
-}
 
 const Tabs = createMaterialTopTabNavigator({
     "SHOWTIMES": ShowTimes,
@@ -432,7 +508,6 @@ const Tabs = createMaterialTopTabNavigator({
             justifyContent: 'center',
         },
         style: {
-
             backgroundColor: 'black',
         },
         statusBarStyle: 'light-content',
@@ -454,13 +529,18 @@ class FilmDetail extends Component {
     constructor(props) {
         super(props);
 
-        console.log(this.props.navigation.state.params.film);
+        console.log(this.props.navigation.state);
 
     }
     render() {
-        const film = this.props.navigation.state.params.film;
 
-        let still = test.images.still;
+        const film = this.props.navigation.state.params.film;
+        const {location} =  this.props.appState ;
+
+
+        let still = film.images.still;
+
+        console.log(Object.keys(film));
 
         let data = [];
 
@@ -470,15 +550,13 @@ class FilmDetail extends Component {
         });
 
 
-        data.forEach((medium) => {
-            console.log(medium);
-        });
-
         return (
 
-            <SafeAreaView style={{flex: 1, backgroundColor: 'white', margin: 0}}>
+            <SafeAreaView style={{flex: 1, backgroundColor: '#ff', margin: 0}}>
                 <FilmCarousel still={data}/>
-                <MainScreenNavigation navigation={this.props.navigation}/>
+
+                <MainScreenNavigation screenProps={{location: location, film: test}}
+                                      navigation={this.props.navigation}/>
 
                 <TouchableOpacity
                     style={{
@@ -509,28 +587,29 @@ class FilmDetail extends Component {
 }
 
 
-
-
 class FilmCarousel extends Component {
 
     _renderItem( {item}) {
 
         return (
                 <Image source={{uri: item.medium.film_image}}
-                       style={{flex: 1, width: "100%", height: 0,  marginBottom: 0}}/>
+                       style={{flex: 1, width: "100%", height: -1, marginBottom: 0}}/>
         );
     }
 
     render() {
         return (
-            <Carousel
-                sliderWidth={400}
-                itemWidth={400}
-                data={this.props.still}
-                renderItem={this._renderItem}
-                containerCustomStyle={{flex: 1}}
-                slideStyle={{flex: 1}}
-            />
+            <View style={{height: "30%"}}>
+                <Carousel
+
+                    sliderWidth={400}
+                    itemWidth={400}
+                    data={this.props.still}
+                    renderItem={this._renderItem}
+                    containerCustomStyle={{flex: 1}}
+                    slideStyle={{flex: 1}}
+                />
+            </View>
         );
     }
 }
@@ -568,7 +647,8 @@ const styles = StyleSheet.create({
     },
     addIcon: {
         justifyContent: 'flex-end'
-    }
+    },
+    tabComponent : {height: '100%' , backgroundColor: 'black'}
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilmDetail);

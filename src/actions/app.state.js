@@ -1,9 +1,9 @@
 import * as types from "../constants/actionTypes";
 
-function setGeolocation({lat, lng}) {
+function setGeolocation(location) {
     return {
         type: types.LATLNG,
-        location: {lat: lat, lng: lng}
+        location
     }
 }
 

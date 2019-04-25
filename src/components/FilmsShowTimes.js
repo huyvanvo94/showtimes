@@ -28,7 +28,7 @@ function mapStateToProps(state) {
     return {
         myMovies: state.moviesReducer.movies.slice(),
         filmsCollection: state.filmsReducer.films.slice(),
-        appState:  state.appStateReducer.state
+        appState:  Object.assign({}, state.appStateReducer.state)
     }
 }
 
@@ -65,6 +65,8 @@ class FilmsShowTimes extends Component {
 
     fetchGeolocation = (callback=null) => {
         navigator.geolocation.getCurrentPosition((pos) => {
+
+            this.props.setGeolocation({lat: pos.coords.latitude, lng: pos.coords.longitude});
 
             this.setState({
                 lat: pos.coords.latitude,

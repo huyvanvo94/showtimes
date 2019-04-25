@@ -135,7 +135,7 @@ class MyMovies extends Component {
 
     render() {
         return (
-            <SafeAreaView style={[{flex: 1},{height: window.height, width: window.width}]}>
+            <SafeAreaView style={[{height: window.height, width: window.width}]}>
 
                 <FlatList
                     data={this.props.movies}
@@ -181,7 +181,7 @@ class MyMovies extends Component {
                                             color={'grey'}/>
                                     </MenuTrigger>
 
-                                    <MenuOptions optionsContainerStyle={{position: 'absolute', right: 0}}>
+                                    <MenuOptions optionsContainerStyle={{marginLeft: Dimensions.get('window').width - 200}}>
                                         <MenuOption onSelect={() => this.props.deleteMovie(item)} >
                                             <Text style={{color: 'red'}}>Delete</Text>
                                         </MenuOption>
