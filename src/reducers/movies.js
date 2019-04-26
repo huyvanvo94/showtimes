@@ -13,8 +13,6 @@ function moviesReducer(state=INITIAL_STATE, action) {
 
         case ADD_MOVIE:
 
-            console.log('moviesReducer ADD_MOVIE ' + action.movie.film_id);
-
             if(state.movies.length === 0) {
                 return {
                     movies: [action.movie]
@@ -39,7 +37,6 @@ function moviesReducer(state=INITIAL_STATE, action) {
             };
         case REMOVE_MOVIE:
 
-            console.log('moviesReducer REMOVE_MOVIE');
 
             return {
                 movies: state.movies.slice().filter((movie) => {
