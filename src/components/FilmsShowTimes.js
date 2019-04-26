@@ -59,7 +59,7 @@ class FilmsShowTimes extends Component {
         }
     }
 
-    fetchGeolocation = (callback=null) => {
+    fetchGeolocation = ({callback}) => {
         navigator.geolocation.getCurrentPosition((pos) => {
 
             this.props.setGeolocation({lat: pos.coords.latitude, lng: pos.coords.longitude});
@@ -68,18 +68,21 @@ class FilmsShowTimes extends Component {
                 lat: pos.coords.latitude,
                 lng: pos.coords.longitude
             }, () => {
-                if(callback !== null) {
+                if(callback) {
                     callback( );
                 }
             })
         });
     };
+
+    /*
     componentDidUpdate(prevProps){
         if(prevProps.value !== this.props.value){
 
             this.fetchMovies();
         }
-    }
+    }*/
+
     fetchMovies = () => {
 
         let url = MOVIE_GLU_API + "/filmsNowShowing";
@@ -124,7 +127,9 @@ class FilmsShowTimes extends Component {
         // Set up UI
         this._setNavigationParams();
 
-        this.fetchGeolocation(this.fetchMovies);
+        this.fetchGeolocation({
+            callback: this.fetchMovies
+        });
 
     }
 

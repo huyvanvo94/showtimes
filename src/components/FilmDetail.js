@@ -58,7 +58,6 @@ class ShowTimes extends Component {
     }
 
     componentDidMount() {
-        console.log('hello');
 
         this.fetchShowtimes();
 
@@ -83,6 +82,7 @@ class ShowTimes extends Component {
         const {lat, lng} = this.props.screenProps.location;
 
         headers.Geolocation = `${lat}; ${lng}`;
+
 
         axios.get(MOVIE_GLU_API + `/filmShowTimes/?film_id=${film_id}&date=${todayDate}`, {headers: headers})
             .then((res) => {
