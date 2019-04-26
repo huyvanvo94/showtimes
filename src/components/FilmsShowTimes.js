@@ -60,28 +60,19 @@ class FilmsShowTimes extends Component {
     }
 
     fetchGeolocation = ({callback}) => {
-        navigator.geolocation.getCurrentPosition((pos) => {
+        navigator.geolocation.watchPosition((pos) => {
 
             this.props.setGeolocation({lat: pos.coords.latitude, lng: pos.coords.longitude});
 
-            this.setState({
-                lat: pos.coords.latitude,
-                lng: pos.coords.longitude
-            }, () => {
-                if(callback) {
-                    callback( );
-                }
-            })
+            if(callback) {
+                callback( );
+            }
+
+        }, (err) => {
+            console.log(err.message);
         });
     };
 
-    /*
-    componentDidUpdate(prevProps){
-        if(prevProps.value !== this.props.value){
-
-            this.fetchMovies();
-        }
-    }*/
 
     fetchMovies = () => {
 
@@ -90,11 +81,10 @@ class FilmsShowTimes extends Component {
         /*
          latlng: Geolocation of end user. Format example: 51; -0.1
         */
-        if(this.state.lat && this.state.lng) {
-            headers.geolocation = `${this.state.lat}; ${this.state.lng}`;
+        if(this.props.appState.location.lat && this.props.appState.location.lng) {
+            headers.geolocation = `${this.props.appState.location.lat}; ${this.props.appState.location.lng}`;
         }
 
-        console.log(this.state);
 
         axios.get(url, { headers : headers})
             .then((res) =>  {
