@@ -129,13 +129,23 @@ class MovieDetails extends Component {
             <View style={styles.tabComponent}>
 
 
-                <ScrollView>
+                <ScrollView style={{height: Dimensions.get('window').height / 200}}>
                     <Text style={{color: 'white'}}>Plot</Text>
-                    <Text style={{color: '#fff'}}>
-                        {
-                            this.props.screenProps.film.synopsis_long ? this.props.screenProps.film.synopsis_long : ''
-                        }
-                    </Text>
+
+                    {
+                        this.props.screenProps.film.synopsis_long ?
+                            (
+                                <Text style={{color: '#fff'}}>
+                                    {
+                                        this.props.screenProps.film.synopsis_long
+                                    }
+                                </Text>
+                            ) : (
+                                <Text style={{color: '#fff'}}>
+                                </Text>
+                            )
+                    }
+
                 </ScrollView>
 
                 <ScrollView style={{marginTop: 10}}>
@@ -153,9 +163,16 @@ class MovieDetails extends Component {
 }
 
 class Trailer extends Component {
+
+
+
     render() {
 
-        if(this.props.screenProps.film === undefined) {
+
+    const width = Dimensions.get('window').width ;
+    const height = Dimensions.get('window').height / 400;
+
+    if(this.props.screenProps.film === undefined) {
             return (
                 <View style={styles.tabComponent}>
 
@@ -163,7 +180,7 @@ class Trailer extends Component {
                     <VideoPlayer
 
                         video={{ uri:  ""}}
-                        videoWidth={300}
+                        videoWidth={width}
                         videoHeight={200}
 
                     />
@@ -171,6 +188,9 @@ class Trailer extends Component {
                 </View>
             );
         }
+
+
+        const film = this.props.screenProps.film;
 
         const med = this.props.screenProps.film.trailers.trailers.med;
         const uri = med[0].film_trailer;
@@ -182,7 +202,7 @@ class Trailer extends Component {
               <VideoPlayer
 
                   video={{ uri: uri }}
-                  videoWidth={300}
+                  videoWidth={width}
                   videoHeight={200}
 
               />
@@ -296,9 +316,18 @@ class FilmDetail extends Component {
         return (
 
             <SafeAreaView style={{flex: 1, backgroundColor: '#ff', margin: 0}}>
-                <Text style={{position: 'absolute',
+                <Text style={{
+                    zIndex: 1,
+                    fontSize: 20,
+                    alignItems:'center',
+                    justifyContent:'center',
+                    position: 'absolute',
                     top: 10,
-                    backgroundColor:'#fff'}}> {film.film_name}</Text>
+                    left: 0,
+                    right: 0,
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    color:'#fff'}}> {film.film_name}</Text>
                 <FilmCarousel still={data}/>
 
                 <MainScreenNavigation screenProps={{location: location, film: this.state.details}}

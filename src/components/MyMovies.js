@@ -18,19 +18,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import {
     Menu,
-    MenuOptions,
-    MenuOption,
     MenuTrigger,
+    MenuOptions,
+    MenuOption, MenuProvider
 } from 'react-native-popup-menu';
 
-import {MenuProvider} from "react-native-popup-menu";
-
-const MenuIcon = ({ navigate }) => <Icon
-    name='three-bars'
-    size={30}
-    color='#000'
-    onPress={() => navigate('DrawerOpen')}
-/>;
 
 const window = Dimensions.get('window');
 
@@ -45,75 +37,16 @@ function mapDispatchToProps(dispatch) {
         deleteMovie: (payload) => dispatch(removeMovie(payload))
     }
 }
-
-
-let test = [
-    {
-        "film_id": 249077,
-        "film_name": "Dumbo",
-        "release_date": "2019-03-29",
-        "age_rating": "PG ",
-        "age_rating_image": "https://assets.movieglu.com/age_rating_logos/us/pg.png",
-        "film_trailer": "https://trailer.movieglu.com/249077_uk_high.mp4",
-        "synopsis_long": "Circus owner Max Medici (Danny DeVito) enlists former star Holt Farrier (Colin Farrell) and his children Milly (Nico Parker) and Joe (Finley Hobbins) to care for a newborn elephant whose oversized ears make him a laughingstock in an already struggling circus. But when they discover that Dumbo can fly, the circus makes an incredible comeback, attracting persuasive entrepreneur V.A. Vandevere (Michael Keaton), who recruits the peculiar pachyderm for his newest, larger-than-life entertainment venture, Dreamland. Dumbo soars to new heights alongside a charming and spectacular aerial artist, Colette Marchant (Eva Green), until Holt learns that beneath its shiny veneer, Dreamland is full of dark secrets.",
-        "images": {
-            "poster": {
-                "1": {
-                    "image_orientation": "portrait",
-                    "region": "US",
-                    "medium": {
-                        "film_image": "https://image.movieglu.com/249077/249077h1.jpg",
-                        "width": 200,
-                        "height": 300
-                    }
-                }
-            },
-            "still": {
-                "2": {
-                    "image_orientation": "landscape",
-                    "medium": {
-                        "film_image": "https://image.movieglu.com/249077/249077h2.jpg",
-                        "width": 300,
-                        "height": 200
-                    }
-                }
-            }
-        }
-    }
-];
-
-
-
 class MyMovies extends Component {
     static navigationOptions = {
         headerTitle: 'To Watch'
     };
 
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
-
-        this.state = {
-            textRef: React.createRef(),
-            menuRef: null
-        }
-
     }
-
-    setMenuRef = () => {
-
-    };
-
-    showMenu = () => {
-
-    };
-
-
-    onPress = () => {
-
-    };
-
 
     displayDelete = (item) => {
         Alert.alert(
@@ -143,9 +76,9 @@ class MyMovies extends Component {
 
 
 
-                            <MenuProvider>
+                        <MenuProvider>
 
-
+                            <View >
 
                                 <TouchableOpacity onPress={ () => {
                                     this.props.navigation.navigate('DetailMovie',
@@ -157,7 +90,12 @@ class MyMovies extends Component {
                                         borderColor: "#fff",
                                         borderWidth: 1,
                                         backgroundColor: "#e9e9e9"}}>
-                                        <Image style={{marginLeft: 10, marginTop: 10, marginBottom: 10, paddingBottom: 5, width: 100, height: 100}} source={{uri: item.images.poster["1"].medium.film_image}} />
+                                        <Image style={{marginLeft: 10,
+                                            marginTop: 10,
+                                            marginBottom: 10,
+                                            paddingBottom: 5,
+                                            width: 100,
+                                            height: 100}} source={{uri: item.images.poster["1"].medium.film_image}} />
 
                                         <View style={{flex: 1, flexDirection: 'column', marginTop: 10}}>
                                             <Text style={{marginTop: 10, marginLeft: 10}}>{item.film_name}</Text>
@@ -167,61 +105,44 @@ class MyMovies extends Component {
                                     </View>
 
 
-
-
                                 </TouchableOpacity>
 
+                                <View style={styles.dots}>
+                                    <Menu>
+                                        <MenuTrigger>
+                                            <Icon
+                                                name='more-vert'
+                                                size={20}
+                                                color={'grey'}/>
 
-                                <Menu>
-                                    <MenuTrigger>
-                                        <Icon
-                                            style={styles.dots}
-                                            name='more-vert'
-                                            size={20}
-                                            color={'grey'}/>
-                                    </MenuTrigger>
+                                        </MenuTrigger>
 
-                                    <MenuOptions optionsContainerStyle={{marginLeft: Dimensions.get('window').width - 200}}>
-                                        <MenuOption onSelect={() => this.props.deleteMovie(item)} >
-                                            <Text style={{color: 'red'}}>Delete</Text>
-                                        </MenuOption>
-                                    </MenuOptions>
+                                        <MenuOptions  >
+                                            <MenuOption onSelect={() => this.props.deleteMovie(item)} >
+                                                <Text style={{color: 'red'}}>Delete</Text>
+                                            </MenuOption>
+                                        </MenuOptions>
 
-                                </Menu>
-                            </MenuProvider>
+                                    </Menu>
+                                </View>
+
+                            </View>
+
+
+
+                        </MenuProvider>
 
                     )}
-                    //Setting the number of column
+                    // Setting the number of column
                     numColumns={1}
                     keyExtractor={(item, index) => index}
                 />
-                {
-                    /*<View style={{flex: 1, backgroundColor: "white", width: 200, height: 200}}>
-                        <MenuProvider>
-                            <Menu>
-                                <MenuTrigger>
-                                    <Icon
-                                        style={styles.dots}
-                                        name='more-vert'
-                                        size={20}
-                                        color={'grey'}/>
-                                </MenuTrigger>
-                                <MenuOptions>
-                                    <MenuOption onSelect={() => alert(`Save`)} text='Save'/>
-                                    <MenuOption onSelect={() => alert(`Delete`)}>
-                                        <Text style={{color: 'red'}}>Delete</Text>
-                                    </MenuOption>
-                                    <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled'/>
-                                </MenuOptions>
-                            </Menu>
-                        </MenuProvider>
-                    </View>*/
-                }
 
             </SafeAreaView>
         );
     }
 }
+
 
 
 const styles = StyleSheet.create({
@@ -230,8 +151,8 @@ const styles = StyleSheet.create({
     },
     dots: {
         position: 'absolute',
-
-        bottom: 35, right: 0
+        bottom: 35,
+        right: 0
     }
 });
 
