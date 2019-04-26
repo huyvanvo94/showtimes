@@ -106,11 +106,11 @@ class ShowTimes extends Component {
                     renderItem={({ item }) => (
                         <View>
 
-                            <Text style={{color: '#fff', fontSize: 15}}>{item.cinema_name} </Text>
+                            <Text style={{color: '#fff', fontSize: 15,  letterSpacing: 0.5}}>{item.cinema_name} </Text>
 
                             {
                                 item.showings.Standard.times.map((time) => {
-                                    return <Text style={{color: '#fff'}}>{time.start_time} to {time.end_time} </Text>
+                                    return <Text style={{color: '#fff',  letterSpacing: 0.5}}>{time.start_time} to {time.end_time} </Text>
                                 })
                             }
 
@@ -124,6 +124,22 @@ class ShowTimes extends Component {
 }
 
 class MovieDetails extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.renderCasts = this.renderCasts.bind(this);
+    }
+
+    renderCasts = () => {
+        if(this.props.screenProps.film) {
+            this.props.screenProps.film.cast.map((who) => {
+                return <Text style={{color: '#fff'}}>{who.cast_name}</Text>
+            })
+        } else {
+            return <Text style={{color: '#fff'}}></Text>
+        }
+    };
     render() {
         return (
             <View style={styles.tabComponent}>
@@ -133,15 +149,15 @@ class MovieDetails extends Component {
                     <Text style={{color: 'white'}}>Plot</Text>
 
                     {
-                        this.props.screenProps.film.synopsis_long ?
+                        this.props.screenProps.film ?
                             (
-                                <Text style={{color: '#fff'}}>
+                                <Text style={{color: '#fff',  letterSpacing: 0.5}}>
                                     {
                                         this.props.screenProps.film.synopsis_long
                                     }
                                 </Text>
                             ) : (
-                                <Text style={{color: '#fff'}}>
+                                <Text style={{color: '#fff',  letterSpacing: 0.5}}>
                                 </Text>
                             )
                     }
@@ -150,10 +166,13 @@ class MovieDetails extends Component {
 
                 <ScrollView style={{marginTop: 10}}>
                     <Text style={{color: 'white'}}>Casts</Text>
+
                     {
-                        this.props.screenProps.film.cast.map((who) => {
-                            return <Text style={{color: '#fff'}}>{who.cast_name}</Text>
-                        })
+                        this.props.screenProps.film ? (
+                            this.props.screenProps.film.cast.map((who) => {
+                                return <Text style={{color: '#fff'}}>{who.cast_name}</Text>
+                            })
+                        ): null
                     }
                 </ScrollView>
 
@@ -257,7 +276,9 @@ const Tabs = createMaterialTopTabNavigator({
 
 const MainScreenNavigation = createAppContainer(Tabs);
 
-
+/*
+Displays a detail view of film
+ */
 class FilmDetail extends Component {
 
     static router = Tabs.router;
@@ -270,6 +291,7 @@ class FilmDetail extends Component {
     constructor(props) {
         super(props);
 
+        // May not exists yet
         this.state = {
             details: undefined
         };
@@ -288,13 +310,10 @@ class FilmDetail extends Component {
                 this.setState({details: res.data})
 
             }).catch((err) => console.log(err.message));
+
     }
 
-
-    render() {
-
-        const film = this.props.navigation.state.params.film;
-        const {location} =  this.props.appState ;
+    getAndFormatStills = () => {
 
         let still = undefined; // this.state.details.images.still;
 
@@ -312,26 +331,25 @@ class FilmDetail extends Component {
             });
         }
 
+        return data;
+    };
+
+
+    render() {
+
+        const film = this.props.navigation.state.params.film;
+        const {location} =  this.props.appState ;
 
         return (
 
-            <SafeAreaView style={{flex: 1, backgroundColor: '#ff', margin: 0}}>
-                <Text style={{
-                    zIndex: 1,
-                    fontSize: 20,
-                    alignItems:'center',
-                    justifyContent:'center',
-                    position: 'absolute',
-                    top: 10,
-                    left: 0,
-                    right: 0,
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    color:'#fff'}}> {film.film_name}</Text>
-                <FilmCarousel still={data}/>
+            <SafeAreaView style={styles.container}>
+                <Text style={styles.title}> {film.film_name}</Text>
+
+                <FilmCarousel still={this.getAndFormatStills()} />
 
                 <MainScreenNavigation screenProps={{location: location, film: this.state.details}}
                                       navigation={this.props.navigation}/>
+
 
                 <TouchableOpacity
                     style={styles.floatContainer}
@@ -353,13 +371,12 @@ class FilmDetail extends Component {
 
 class FilmCarousel extends Component {
 
-
     _renderItem( {item}) {
 
         return (
-                <Image source={{uri: item.medium.film_image}}
-                       style={styles.filmImage}
-                />
+            <Image source={{uri: item.medium.film_image}}
+                   style={styles.filmImage}
+            />
         );
     }
 
@@ -384,11 +401,17 @@ class FilmCarousel extends Component {
 
 
 
+
 const entryBorderRadius = 8;
 
 const IS_IOS = Platform.OS === 'ios';
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        margin: 0
+    },
     filmImage: {flex: 1,
         width: "100%",
         height: 0,
@@ -409,12 +432,23 @@ const styles = StyleSheet.create({
         borderTopRightRadius: entryBorderRadius
     },
     title: {
-        color: "#000000",
-        fontSize: 13,
+        zIndex: 1,
+        fontSize: 20,
+        alignItems:'center',
+        justifyContent:'center',
+        position: 'absolute',
+        top: 10,
+        left: 0,
+        right: 0,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        color:'#fff',
         fontWeight: 'bold',
         letterSpacing: 0.5
     },scene: {
-        flex: 1, width: "100%", height: "100%"
+        flex: 1,
+        width: "100%",
+        height: "100%"
     },
     addIcon: {
         justifyContent: 'flex-end'

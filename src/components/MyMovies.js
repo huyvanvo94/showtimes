@@ -37,6 +37,10 @@ function mapDispatchToProps(dispatch) {
         deleteMovie: (payload) => dispatch(removeMovie(payload))
     }
 }
+
+/*
+Displays a list view of movies to watch
+ */
 class MyMovies extends Component {
     static navigationOptions = {
         headerTitle: 'To Watch'
@@ -85,17 +89,8 @@ class MyMovies extends Component {
                                         {film: item}) }}>
 
 
-                                    <View style={{flex: 1,
-                                        flexDirection: 'row',
-                                        borderColor: "#fff",
-                                        borderWidth: 1,
-                                        backgroundColor: "#e9e9e9"}}>
-                                        <Image style={{marginLeft: 10,
-                                            marginTop: 10,
-                                            marginBottom: 10,
-                                            paddingBottom: 5,
-                                            width: 100,
-                                            height: 100}} source={{uri: item.images.poster["1"].medium.film_image}} />
+                                    <View style={styles.container1}>
+                                        <Image style={styles.image1} source={{uri: item.images.poster["1"].medium.film_image}} />
 
                                         <View style={{flex: 1, flexDirection: 'column', marginTop: 10}}>
                                             <Text style={{marginTop: 10, marginLeft: 10}}>{item.film_name}</Text>
@@ -146,13 +141,24 @@ class MyMovies extends Component {
 
 
 const styles = StyleSheet.create({
-    container: {
-
+    container1: {flex: 1,
+        flexDirection: 'row',
+        borderColor: "#fff",
+        borderWidth: 1,
+        backgroundColor: "#e9e9e9"
     },
     dots: {
         position: 'absolute',
         bottom: 35,
         right: 0
+    },
+    image1: {
+        marginLeft: 10,
+        marginTop: 10,
+        marginBottom: 10,
+        paddingBottom: 5,
+        width: 100,
+        height: 100
     }
 });
 
