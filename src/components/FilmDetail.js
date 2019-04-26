@@ -95,6 +95,17 @@ class ShowTimes extends Component {
         })
     };
 
+
+    // Convert 24 time to 12 hour
+    convert24to12 = (str) => {
+        const split = str.split(":");
+
+        if(parseInt(split[0]) < 12) {
+            return str + " AM";
+        }
+        return (parseInt(split[0]) % 12) + ":" + split[1] + " PM";
+    };
+
     render() {
          return (
             <View style={styles.tabComponent}>
@@ -110,7 +121,7 @@ class ShowTimes extends Component {
 
                             {
                                 item.showings.Standard.times.map((time) => {
-                                    return <Text style={{color: '#fff',  letterSpacing: 0.5}}>{time.start_time} to {time.end_time} </Text>
+                                    return <Text style={{color: '#fff',  letterSpacing: 0.5}}>{this.convert24to12(time.start_time)} to {this.convert24to12(time.end_time)} </Text>
                                 })
                             }
 
