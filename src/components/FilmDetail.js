@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import {
     View,
@@ -15,11 +14,6 @@ import {
 }
 from 'react-native';
 import VideoPlayer from 'react-native-video-player';
-
-import ActionButton from 'react-native-action-button';
-
-import Video from 'react-native-video';
-
 import { connect } from 'react-redux';
 import { addMovie } from "../actions/movies";
 import { addFilm } from "../actions/films";
@@ -30,17 +24,9 @@ import {defaultMovieGlueHeader, MOVIE_GLU_API} from "../constants/constants";
 
 import Icon from "react-native-vector-icons/AntDesign";
 
-import TrailerVideo from './TrailerVideo';
-/*
-import { createBottomTabNavigator,
-    BottomTabBar,
-    createMaterialTopTabNavigator } from 'react-navigation-tabs'; */
-
 import {
     createMaterialTopTabNavigator,
-    createSwitchNavigator,
-    createAppContainer,
-    createStackNavigator
+    createAppContainer
 } from "react-navigation";
 
 
@@ -62,293 +48,6 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-
-
-
-const test = {
-    "film_id": 271425,
-    "film_name": "Missing Link",
-    "version_type": "Standard",
-    "images": {
-        "poster": {
-            "1": {
-                "image_orientation": "portrait",
-                "region": "US",
-                "medium": {
-                    "film_image": "https://image.movieglu.com/271425/271425h1.jpg",
-                    "width": 200,
-                    "height": 300
-                }
-            }
-        },
-        "still": {
-            "2": {
-                "image_orientation": "landscape",
-                "medium": {
-                    "film_image": "https://image.movieglu.com/271425/271425h2.jpg",
-                    "width": 300,
-                    "height": 200
-                }
-            },
-            "3": {
-                "image_orientation": "landscape",
-                "medium": {
-                    "film_image": "https://image.movieglu.com/271425/271425h3.jpg",
-                    "width": 300,
-                    "height": 200
-                }
-            },
-            "4": {
-                "image_orientation": "landscape",
-                "medium": {
-                    "film_image": "https://image.movieglu.com/271425/271425h4.jpg",
-                    "width": 300,
-                    "height": 200
-                }
-            },
-            "5": {
-                "image_orientation": "landscape",
-                "medium": {
-                    "film_image": "https://image.movieglu.com/271425/271425h5.jpg",
-                    "width": 300,
-                    "height": 200
-                }
-            },
-            "6": {
-                "image_orientation": "landscape",
-                "medium": {
-                    "film_image": "https://image.movieglu.com/271425/271425h6.jpg",
-                    "width": 300,
-                    "height": 200
-                }
-            },
-            "7": {
-                "image_orientation": "landscape",
-                "medium": {
-                    "film_image": "https://image.movieglu.com/271425/271425h7.jpg",
-                    "width": 300,
-                    "height": 200
-                }
-            },
-            "8": {
-                "image_orientation": "landscape",
-                "medium": {
-                    "film_image": "https://image.movieglu.com/271425/271425h8.jpg",
-                    "width": 300,
-                    "height": 200
-                }
-            }
-        }
-    },
-    "synopsis_long": "This April, meet Mr. Link: 8 feet tall, 630 lbs, and covered in fur, but don't let his appearance fool you... he is funny, sweet, and adorably literal, making him the world's most lovable legend at the heart of Missing Link, the globe-trotting family adventure from LAIKA. Tired of living a solitary life in the Pacific Northwest, Mr. Link recruits fearless explorer Sir Lionel Frost to guide him on a journey to find his long-lost relatives in the fabled valley of Shangri-La. Along with adventurer Adelina Fortnight, our fearless trio of explorers encounter more than their fair share of peril as they travel to the far reaches of the world to help their new friend. Through it all, the three learn that sometimes you can find a family in the places you least expect.",
-    "distributor_id": 280,
-    "distributor": "Lionsgate",
-    "release_date": "2019-04-05",
-    "age_rating": "PG ",
-    "age_advisory": "mild violence, threat, language",
-    "duration_mins": 95,
-    "review_stars": 0,
-    "review_txt": "",
-    "trailers": {
-        "film_id": 271425,
-        "film_name": "Missing Link",
-        "trailers": {
-            "high": [
-                {
-                    "film_trailer": "https://trailer.movieglu.com/271425_uk_high.mp4",
-                    "trailer_image": "https://image.movieglu.com/271425/271425h3.jpg",
-                    "version": 1,
-                    "quality": "high",
-                    "region": "UK"
-                },
-                {
-                    "film_trailer": "https://trailer.movieglu.com/271425_high_V2.mp4",
-                    "trailer_image": "https://image.movieglu.com/271425/271425h4.jpg",
-                    "version": 2,
-                    "quality": "high",
-                    "region": "US"
-                }
-            ],
-            "med": [
-                {
-                    "film_trailer": "https://trailer.movieglu.com/271425_uk_med.mp4",
-                    "trailer_image": "https://image.movieglu.com/271425/271425h3.jpg",
-                    "version": 1,
-                    "quality": "med",
-                    "region": "UK"
-                },
-                {
-                    "film_trailer": "https://trailer.movieglu.com/271425_med_V2.mp4",
-                    "trailer_image": "https://image.movieglu.com/271425/271425h4.jpg",
-                    "version": 2,
-                    "quality": "med",
-                    "region": "US"
-                }
-            ]
-        }
-    },
-    "genres": [
-        {
-            "genre_id": 7,
-            "genre_name": "Animation"
-        },
-        {
-            "genre_id": 3,
-            "genre_name": "Comedy"
-        },
-        {
-            "genre_id": 5,
-            "genre_name": "Action/Adventure"
-        }
-    ],
-    "cast": [
-        {
-            "cast_id": 989,
-            "cast_name": "Hugh Jackman"
-        },
-        {
-            "cast_id": 1393,
-            "cast_name": "Zoe Saldana"
-        },
-        {
-            "cast_id": 1795,
-            "cast_name": "Zach Galifianakis"
-        },
-        {
-            "cast_id": 355,
-            "cast_name": "Emma Thompson"
-        },
-        {
-            "cast_id": 83,
-            "cast_name": "Stephen Fry"
-        },
-        {
-            "cast_id": 2258,
-            "cast_name": "Timothy Olyphant"
-        },
-        {
-            "cast_id": 8654,
-            "cast_name": "Matt Lucas"
-        },
-        {
-            "cast_id": 36277,
-            "cast_name": "David Walliams"
-        },
-        {
-            "cast_id": 36278,
-            "cast_name": "Ching Valdez-Aran"
-        },
-        {
-            "cast_id": 34745,
-            "cast_name": "Amrita Acharia"
-        }
-    ],
-    "directors": [
-        {
-            "director_id": 2153,
-            "director_name": "Chris Butler"
-        }
-    ],
-    "producers": [],
-    "writers": [
-        {
-            "writer_id": 3068,
-            "writer_name": "Chris Butler"
-        }
-    ],
-    "show_dates": [
-        {
-            "date": "2019-04-23"
-        },
-        {
-            "date": "2019-04-24"
-        },
-        {
-            "date": "2019-04-25"
-        },
-        {
-            "date": "2019-04-26"
-        },
-        {
-            "date": "2019-04-27"
-        },
-        {
-            "date": "2019-04-28"
-        },
-        {
-            "date": "2019-04-29"
-        },
-        {
-            "date": "2019-04-30"
-        },
-        {
-            "date": "2019-05-01"
-        },
-        {
-            "date": "2019-05-02"
-        },
-        {
-            "date": "2019-05-04"
-        },
-        {
-            "date": "2019-05-05"
-        },
-        {
-            "date": "2019-05-06"
-        },
-        {
-            "date": "2019-05-11"
-        },
-        {
-            "date": "2019-05-15"
-        },
-        {
-            "date": "2019-05-18"
-        },
-        {
-            "date": "2019-05-24"
-        },
-        {
-            "date": "2019-05-25"
-        },
-        {
-            "date": "2019-05-26"
-        },
-        {
-            "date": "2019-05-27"
-        },
-        {
-            "date": "2019-05-29"
-        },
-        {
-            "date": "2019-05-31"
-        },
-        {
-            "date": "2019-06-01"
-        },
-        {
-            "date": "2019-06-02"
-        }
-    ],
-    "alternate_versions": [
-        {
-            "film_id": 290064,
-            "film_name": "Missing Link 3D",
-            "version_type": "3D"
-        }
-    ],
-    "status": {
-        "state": "OK",
-        "code": 1,
-        "method": "filmDetails",
-        "message": null,
-        "request_method": "GET",
-        "version": "PFIEv102",
-        "auth_type": "d"
-    }
-};
-
-
 class ShowTimes extends Component {
 
     constructor(props){
@@ -369,6 +68,9 @@ class ShowTimes extends Component {
 
     fetchShowtimes = () => {
 
+        const {film_id} = this.props.navigation.state.params.film;
+
+
         const dateObj = new Date();
         const month = dateObj.getUTCMonth() + 1; //months from 1-12
         const day = dateObj.getUTCDate();
@@ -382,7 +84,7 @@ class ShowTimes extends Component {
 
         headers.Geolocation = `${lat}; ${lng}`;
 
-        axios.get(MOVIE_GLU_API + `/filmShowTimes/?film_id=271425&date=${todayDate}`, {headers: headers})
+        axios.get(MOVIE_GLU_API + `/filmShowTimes/?film_id=${film_id}&date=${todayDate}`, {headers: headers})
             .then((res) => {
                 console.log(res.data);
 
@@ -396,7 +98,7 @@ class ShowTimes extends Component {
     render() {
          return (
             <View style={styles.tabComponent}>
-                <Text style={{color: '#fff'}}> Show times for today </Text>
+                <Text style={{color: '#fff', fontSize: 15}}> Show times for today </Text>
 
 
                 <FlatList
@@ -404,12 +106,7 @@ class ShowTimes extends Component {
                     renderItem={({ item }) => (
                         <View>
 
-
-                            {
-                                console.log(Object.keys(item.showings.Standard.times))
-                            }
-
-                            <Text style={{color: '#fff'}}>{item.cinema_name} </Text>
+                            <Text style={{color: '#fff', fontSize: 15}}>{item.cinema_name} </Text>
 
                             {
                                 item.showings.Standard.times.map((time) => {
@@ -432,11 +129,11 @@ class MovieDetails extends Component {
             <View style={styles.tabComponent}>
 
 
-                <ScrollView style={{height: 100}}>
+                <ScrollView>
                     <Text style={{color: 'white'}}>Plot</Text>
                     <Text style={{color: '#fff'}}>
                         {
-                            this.props.screenProps.film.synopsis_long
+                            this.props.screenProps.film.synopsis_long ? this.props.screenProps.film.synopsis_long : ''
                         }
                     </Text>
                 </ScrollView>
@@ -476,17 +173,12 @@ class Trailer extends Component {
         }
 
         const med = this.props.screenProps.film.trailers.trailers.med;
-
-        console.log(Object.keys(med));
-
         const uri = med[0].film_trailer;
-
-        console.log(uri)
 
         return (
           <View style={styles.tabComponent}>
 
-              <Text style={{color: 'white'}}> Trailer Name </Text>
+              <Text style={{color: 'white'}}> </Text>
               <VideoPlayer
 
                   video={{ uri: uri }}
@@ -564,18 +256,14 @@ class FilmDetail extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.navigation.state.params.film.film_id);
 
         const {film_id} = this.props.navigation.state.params.film;
-
-        console.log('lmao : ' + film_id);
 
         let url = MOVIE_GLU_API + "/filmDetails";
 
         axios.get(url,
-            {params: {film_id: film_id}, headers: defaultMovieGlueHeader})
+            { params: {film_id: film_id}, headers: defaultMovieGlueHeader})
             .then((res) => {
-                console.log('detai;s: ' + Object.keys(res.data.images));
 
                 this.setState({details: res.data})
 
@@ -587,7 +275,6 @@ class FilmDetail extends Component {
 
         const film = this.props.navigation.state.params.film;
         const {location} =  this.props.appState ;
-
 
         let still = undefined; // this.state.details.images.still;
 
@@ -609,31 +296,23 @@ class FilmDetail extends Component {
         return (
 
             <SafeAreaView style={{flex: 1, backgroundColor: '#ff', margin: 0}}>
+                <Text style={{position: 'absolute',
+                    top: 10,
+                    backgroundColor:'#fff'}}> {film.film_name}</Text>
                 <FilmCarousel still={data}/>
 
                 <MainScreenNavigation screenProps={{location: location, film: this.state.details}}
                                       navigation={this.props.navigation}/>
 
                 <TouchableOpacity
-                    style={{
-                        borderWidth:1,
-                        borderColor:'rgba(0,0,0,0.2)',
-                        alignItems:'center',
-                        justifyContent:'center',
-                        width: 50,
-                        position: 'absolute',
-                        bottom: 10,
-                        right: 10,
-                        height:50,
-                        backgroundColor:'#fff',
-                        borderRadius:50,
-                    }}
-
+                    style={styles.floatContainer}
                     onPress={() => {
                         this.props.addMovie(film)
-                    }}
-                >
-                    <Icon name="plus"  size={25} color="#01a699" />
+                    }}>
+
+                    <Icon name="plus"
+                          size={25}
+                          color="#01a699" />
                 </TouchableOpacity>
 
             </SafeAreaView>
@@ -649,7 +328,8 @@ class FilmCarousel extends Component {
 
         return (
                 <Image source={{uri: item.medium.film_image}}
-                       style={{flex: 1, width: "100%", height: -1, marginBottom: 0}}/>
+                       style={styles.filmImage}
+                />
         );
     }
 
@@ -679,6 +359,11 @@ const entryBorderRadius = 8;
 const IS_IOS = Platform.OS === 'ios';
 
 const styles = StyleSheet.create({
+    filmImage: {flex: 1,
+        width: "100%",
+        height: 0,
+        marginBottom: 0
+    },
     imageContainer: {
         flex: 1,
         marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
@@ -704,7 +389,22 @@ const styles = StyleSheet.create({
     addIcon: {
         justifyContent: 'flex-end'
     },
-    tabComponent : {height: '100%' , backgroundColor: 'black'}
+    tabComponent : {
+        height: '100%' ,
+        backgroundColor: 'black'
+    }, floatContainer : {
+        borderWidth:1,
+        borderColor:'rgba(0,0,0,0.2)',
+        alignItems:'center',
+        justifyContent:'center',
+        width: 50,
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        height:50,
+        backgroundColor:'#fff',
+        borderRadius:50,
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilmDetail);
