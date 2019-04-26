@@ -10,7 +10,6 @@ import LinearGradient from 'react-native-linear-gradient';
 class Movie extends Component{
 
     touchHandler = () => {
-        console.log('Movie touchHandler');
 
         this.props.push( );
 

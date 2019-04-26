@@ -78,12 +78,15 @@ class FilmsShowTimes extends Component {
 
         let url = MOVIE_GLU_API + "/filmsNowShowing";
         let headers = defaultMovieGlueHeader;
-        /*
-         latlng: Geolocation of end user. Format example: 51; -0.1
-        */
-        if(this.props.appState.location.lat && this.props.appState.location.lng) {
-            headers.geolocation = `${this.props.appState.location.lat}; ${this.props.appState.location.lng}`;
+
+
+        if(this.props.appState.location.lat && this.props.appState.location.lng){
+            console.log('Location: '+`${this.props.appState.location.lat}; ${this.props.appState.location.lng}`);
+
+            headers.Geolocation = `${this.props.appState.location.lat}; ${this.props.appState.location.lng}`;
+
         }
+
 
 
         axios.get(url, { headers : headers})

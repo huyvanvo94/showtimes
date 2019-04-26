@@ -100,10 +100,14 @@ class ShowTimes extends Component {
     convert24to12 = (str) => {
         const split = str.split(":");
 
+        if(parseInt(split[0]) == 12) {
+            return str + " PM";
+        }
+
         if(parseInt(split[0]) < 12) {
             return str + " AM";
         }
-        return (parseInt(split[0]) % 12) + ":" + split[1] + " PM";
+        return (parseInt(split[0]) % 12) + ":" + split[1] + "PM";
     };
 
     render() {
@@ -111,19 +115,22 @@ class ShowTimes extends Component {
             <View style={styles.tabComponent}>
                 <Text style={{color: '#fff', fontSize: 15}}> Show times for today </Text>
 
-
                 <FlatList
-                    data={ this.state.cinemas}
+                    data={this.state.cinemas}
                     renderItem={({ item }) => (
                         <View>
 
                             <Text style={{color: '#fff', fontSize: 15,  letterSpacing: 0.5}}>{item.cinema_name} </Text>
 
-                            {
-                                item.showings.Standard.times.map((time) => {
-                                    return <Text style={{color: '#fff',  letterSpacing: 0.5}}>{this.convert24to12(time.start_time)} to {this.convert24to12(time.end_time)} </Text>
-                                })
-                            }
+                            <FlatList
+                                data={item.showings.Standard.times}
+                                horizontal={false}
+                                numColumns={2}
+                                p
+                                renderItem={({item}) =>
+                                    <Text style={{margin: 5, color: '#fff',  letterSpacing: 0.5}}>{this.convert24to12(item.start_time)} - {this.convert24to12(item.end_time)} </Text>
+                                }
+                            />
 
 
                         </View>

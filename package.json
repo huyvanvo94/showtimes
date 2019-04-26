@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "ios-dev": "ENVFILE=.env.development && react-native run-ios"
+    "ios-dev": "ENVFILE=.env.development && react-native run-ios",
+    "android-dev": ""
   },
   "dependencies": {
     "axios": "^0.18.0",
