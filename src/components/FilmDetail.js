@@ -353,6 +353,7 @@ class FilmDetail extends Component {
 
 class FilmCarousel extends Component {
 
+
     _renderItem( {item}) {
 
         return (
