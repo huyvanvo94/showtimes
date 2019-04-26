@@ -125,21 +125,10 @@ class ShowTimes extends Component {
 
 class MovieDetails extends Component {
 
-    constructor(props) {
-        super(props);
 
-        this.renderCasts = this.renderCasts.bind(this);
-    }
-
-    renderCasts = () => {
-        if(this.props.screenProps.film) {
-            this.props.screenProps.film.cast.map((who) => {
-                return <Text style={{color: '#fff'}}>{who.cast_name}</Text>
-            })
-        } else {
-            return <Text style={{color: '#fff'}}></Text>
-        }
-    };
+    /*
+    Only renders if film model is defined
+     */
     render() {
         return (
             <View style={styles.tabComponent}>
@@ -185,13 +174,33 @@ class Trailer extends Component {
 
 
 
+    /*
+    Only renders if film model is defined
+     */
+
     render() {
 
+        const width = Dimensions.get('window').width ;
 
-    const width = Dimensions.get('window').width ;
-    const height = Dimensions.get('window').height / 400;
+        if(this.props.screenProps.film) {
 
-    if(this.props.screenProps.film === undefined) {
+            const med = this.props.screenProps.film.trailers.trailers.med;
+            const uri = med[0].film_trailer;
+
+            return (
+                <View style={styles.tabComponent}>
+
+                    <Text style={{color: 'white'}}> </Text>
+                    <VideoPlayer
+
+                        video={{uri: uri}}
+                        videoWidth={width}
+                        videoHeight={200}
+                    />
+
+                </View>
+            );
+        } else {
             return (
                 <View style={styles.tabComponent}>
 
@@ -207,27 +216,6 @@ class Trailer extends Component {
                 </View>
             );
         }
-
-
-        const film = this.props.screenProps.film;
-
-        const med = this.props.screenProps.film.trailers.trailers.med;
-        const uri = med[0].film_trailer;
-
-        return (
-          <View style={styles.tabComponent}>
-
-              <Text style={{color: 'white'}}> </Text>
-              <VideoPlayer
-
-                  video={{ uri: uri }}
-                  videoWidth={width}
-                  videoHeight={200}
-
-              />
-
-          </View>
-        );
     }
 }
 
