@@ -18,7 +18,6 @@ function appStateReducer(state=INITIAL_STATE, action) {
 
             newState.location = action.location;
 
-            console.log('eeee->' + newState.location.lat);
             return newState;
 
         default:

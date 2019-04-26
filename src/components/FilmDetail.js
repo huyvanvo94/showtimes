@@ -305,7 +305,7 @@ class FilmDetail extends Component {
 
         let data = [];
 
-        if(still !== undefined) {
+        if(still) {
 
             Object.values(still).map((type) => {
                 data.push({'medium': type.medium});

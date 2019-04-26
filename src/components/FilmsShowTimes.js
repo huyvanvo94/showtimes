@@ -23,7 +23,6 @@ const window = Dimensions.get('window');
 
 
 function mapStateToProps(state) {
-    console.log(state.appStateReducer.state);
 
     return {
         myMovies: state.moviesReducer.movies.slice(),
@@ -54,9 +53,6 @@ class FilmsShowTimes extends Component {
 
     constructor(props) {
         super(props);
-
-        console.log(this.props.appState);
-
 
         this.state = {
             lat: null, lng: null

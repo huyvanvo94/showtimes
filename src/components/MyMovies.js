@@ -117,7 +117,7 @@ class MyMovies extends Component {
 
                                         </MenuTrigger>
 
-                                        <MenuOptions  >
+                                        <MenuOptions >
                                             <MenuOption onSelect={() => this.props.deleteMovie(item)} >
                                                 <Text style={{color: 'red'}}>Delete</Text>
                                             </MenuOption>
