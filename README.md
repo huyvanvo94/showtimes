@@ -1,7 +1,8 @@
 ## Showtimes
 
 ```
-MovieGlu
-``` 
+The project uses MovieGlu evulation API (Free to use with 75 limit requests)
 
-https://github.com/react-native-community/react-native-tab-view
+The evaluation API uses UK data. 
+ 
+```
